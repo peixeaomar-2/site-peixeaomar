@@ -1,0 +1,166 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactCTA from "../components/ContactCTA.astro";
+import { publicConfig } from "../config";
+
+const title = "Sobre Mariana e a Peixeaomar";
+const description =
+  "Conheça a Peixeaomar: uma prática que cruza fotografia, arte, educação, cultura visual e projetos culturais no Rio de Janeiro.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: title,
+  description,
+  url: new URL("/sobre/", publicConfig.siteUrl).toString(),
+  mainEntity: {
+    "@type": "Person",
+    name: "Mariana",
+    brand: {
+      "@type": "Brand",
+      name: "Peixeaomar"
+    },
+    knowsAbout: [
+      "Fotografia",
+      "Audiovisual",
+      "Aquarela",
+      "Educação artística",
+      "Cultura visual",
+      "Projetos culturais"
+    ],
+    areaServed: "Rio de Janeiro, RJ"
+  }
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/sobre/"
+  jsonLd={jsonLd}
+>
+  <article class="about-page">
+    <header class="editorial-hero editorial-hero--about">
+      <div class="editorial-hero__title">
+        <p class="meta">Sobre / Peixeaomar</p>
+        <h1>Uma prática artística que também ensina.</h1>
+      </div>
+      <div class="editorial-hero__statement">
+        <p>
+          A marca é uma forma de olhar: curiosa, direta, autoral e acessível.
+        </p>
+        <span class="meta">criar sem apagar as marcas</span>
+      </div>
+    </header>
+
+    <section class="about-intro section-shell">
+      <div>
+        <p class="meta">Mariana / artista / fotógrafa / educadora</p>
+        <h2>Peixeaomar reúne práticas que se alimentam.</h2>
+      </div>
+      <div class="prose prose--large">
+        <p>
+          Sou Mariana. Trabalho com fotografia, audiovisual, aquarela,
+          educação e cultura. Em vez de tratar essas áreas como serviços
+          desconectados, a Peixeaomar investiga o que existe entre elas:
+          percepção, memória, autoria, matéria e maneiras de fazer uma
+          experiência circular.
+        </p>
+        <p>
+          Posso fotografar um encontro, construir um vídeo, acompanhar um
+          projeto cultural ou conduzir uma oficina. Em cada caso, o trabalho
+          começa pela mesma pergunta: o que precisa ser visto, vivido ou
+          compreendido aqui?
+        </p>
+      </div>
+    </section>
+
+    <section class="principles section-shell section-shell--dark">
+      <div class="section-heading">
+        <p class="meta">Quatro princípios</p>
+        <h2>Intensidade com estrutura</h2>
+      </div>
+      <ol class="principles__grid">
+        <li>
+          <span>1</span>
+          <h3>Maré estrutural</h3>
+          <p>
+            Movimento, repetição, avanço e retorno. O mar aparece no
+            comportamento, não como decoração.
+          </p>
+        </li>
+        <li>
+          <span>2</span>
+          <h3>Atrito material</h3>
+          <p>
+            Papel, tinta, corte, ruído e marcas de processo dão corpo às
+            imagens e experiências.
+          </p>
+        </li>
+        <li>
+          <span>3</span>
+          <h3>Caos cuidadoso</h3>
+          <p>
+            Sempre existe um foco dominante e uma leitura possível, mesmo
+            quando a composição se desloca.
+          </p>
+        </li>
+        <li>
+          <span>4</span>
+          <h3>Presença sem ameaça</h3>
+          <p>
+            Impactante e estranha quando precisa, mas nunca violenta, sombria
+            por pose ou infantilizada.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="practice section-shell">
+      <figure class="practice__image">
+        <img
+          src="/images/processo-editorial.webp"
+          alt="Mãos trabalham com fotografias, papel e tinta azul em um processo artístico"
+          width="1600"
+          height="1067"
+        />
+      </figure>
+      <div class="practice__copy">
+        <p class="meta">Processo também é resultado</p>
+        <h2>O trabalho deixa ver como foi feito.</h2>
+        <p>
+          A Peixeaomar não transforma tentativa em efeito vazio nem esconde as
+          condições reais de criação. Escuta, teste, erro, revisão e decisão
+          fazem parte do resultado — e ajudam cada projeto a encontrar uma
+          forma própria.
+        </p>
+        <p class="hand-note">a imperfeição também informa</p>
+      </div>
+    </section>
+
+    <section class="territory section-shell section-shell--night">
+      <div class="section-heading">
+        <p class="meta">Território de trabalho</p>
+        <h2>Arte, educação e cultura visual no Rio de Janeiro.</h2>
+      </div>
+      <div class="territory__grid">
+        <p>
+          O atendimento parte do Rio de Janeiro e pode alcançar outras cidades
+          conforme o projeto. Há formatos presenciais, remotos e híbridos.
+        </p>
+        <p>
+          Para propostas com escolas, instituições e equipes, escopo,
+          acessibilidade, autorizações, materiais e registro são combinados
+          desde o início.
+        </p>
+      </div>
+    </section>
+
+    <ContactCTA
+      eyebrow="Uma conversa antes do formato"
+      title="Conte o que está em movimento."
+      text="Mesmo que a ideia ainda não esteja pronta, podemos começar pelo contexto e pelas perguntas certas."
+      tone="plum"
+    />
+  </article>
+</BaseLayout>

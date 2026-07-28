@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Página não encontrada"
+  description="A página que você procurou não foi encontrada."
+  noindex={true}
+>
+  <section class="not-found section-shell section-shell--night">
+    <p class="meta">Erro / 404</p>
+    <h1>A maré mudou esta página de lugar.</h1>
+    <p>
+      O endereço pode ter mudado ou nunca ter existido. Volte ao início para
+      encontrar os serviços, o portfólio e o contato.
+    </p>
+    <a class="button button--magenta" href="/">Voltar ao início</a>
+  </section>
+</BaseLayout>

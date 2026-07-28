@@ -1,0 +1,104 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactCTA from "../components/ContactCTA.astro";
+
+const title = "Portfólio de fotografia, audiovisual, arte e educação";
+const description =
+  "Seleção inicial de trabalhos e direções da Peixeaomar em fotografia, audiovisual, aulas, oficinas e projetos culturais.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/portfolio/"
+>
+  <article class="portfolio-page">
+    <header class="portfolio-hero">
+      <div>
+        <p class="meta">Portfólio / em edição</p>
+        <h1>Trabalhos que deixam o processo aparecer.</h1>
+      </div>
+      <p>
+        Esta primeira seleção apresenta a direção visual do site. Antes da
+        publicação final, as imagens demonstrativas serão substituídas por
+        fotografias autorais e projetos reais da Peixeaomar.
+      </p>
+    </header>
+
+    <section class="portfolio-grid" aria-label="Seleção visual">
+      <figure class="portfolio-item portfolio-item--wide">
+        <img
+          src="/images/processo-editorial.webp"
+          alt="Processo de criação com fotografias impressas, régua, pincel e tinta azul"
+          width="1600"
+          height="1067"
+        />
+        <figcaption>
+          <span class="meta">01 / fotografia / processo</span>
+          <strong>Imagem como investigação</strong>
+          <p>Detalhe, matéria, gesto e montagem como partes da narrativa.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="portfolio-item portfolio-item--tall">
+        <img
+          src="/images/oficina-editorial.webp"
+          alt="Mãos de participantes em uma oficina coletiva com tinta, papel e tesouras"
+          width="1600"
+          height="1067"
+        />
+        <figcaption>
+          <span class="meta">02 / oficina / educação</span>
+          <strong>Aprender fazendo junto</strong>
+          <p>Experiência, repertório e autoria em situações reais.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="portfolio-item portfolio-item--texture">
+        <img
+          src="/images/mare-em-atrito.webp"
+          alt="Textura abstrata formada por camadas de papel, tinta, xerox e marcas em azul, magenta e cobre"
+          width="1600"
+          height="900"
+        />
+        <figcaption>
+          <span class="meta">03 / identidade / matéria</span>
+          <strong>Maré em atrito</strong>
+          <p>Repetição, erosão e retorno sem decoração náutica.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="portfolio-item portfolio-item--crop">
+        <img
+          src="/images/processo-editorial.webp"
+          alt="Recorte próximo de fotografias e materiais de trabalho sobre uma mesa"
+          width="1600"
+          height="1067"
+        />
+        <figcaption>
+          <span class="meta">04 / audiovisual / montagem</span>
+          <strong>Editar também é escrever</strong>
+          <p>Seleção, ritmo e contexto para fazer uma ideia circular.</p>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="portfolio-note section-shell">
+      <p class="hand-note">portfólio vivo →</p>
+      <div>
+        <h2>O Alboom continuará sendo a área de entrega.</h2>
+        <p>
+          O site apresentará projetos selecionados e ajudará novas pessoas a
+          encontrar o trabalho. As galerias completas de clientes poderão
+          continuar no Alboom, ligadas por um acesso discreto.
+        </p>
+      </div>
+    </section>
+
+    <ContactCTA
+      eyebrow="Seu projeto pode ser o próximo capítulo"
+      title="Precisa de imagens, uma experiência ou as duas coisas?"
+      tone="night"
+    />
+  </article>
+</BaseLayout>
