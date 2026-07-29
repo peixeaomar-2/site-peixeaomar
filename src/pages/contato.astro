@@ -1,0 +1,205 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { publicConfig, whatsappHref } from "../config";
+
+const title = "Contato e orçamento";
+const description =
+  "Converse com a Peixeaomar sobre fotografia, audiovisual, aulas, oficinas e projetos culturais no Rio de Janeiro.";
+const whatsapp = whatsappHref(
+  "Olá, Mariana! Encontrei o site da Peixeaomar e gostaria de pedir um orçamento."
+);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/contato/"
+>
+  <article class="contact-page">
+    <header class="contact-hero">
+      <div>
+        <p class="meta">Contato / orçamento</p>
+        <h1>Vamos começar por uma conversa.</h1>
+      </div>
+      <p>
+        Não precisa chegar com tudo resolvido. Conte o contexto, a data, a
+        cidade e o que você precisa fazer existir.
+      </p>
+    </header>
+
+    <section class="contact-shell">
+      <div class="contact-aside">
+        <div>
+          <p class="meta">Antes de enviar</p>
+          <h2>O que ajuda a preparar uma proposta</h2>
+          <ul>
+            <li>serviço ou combinação de serviços</li>
+            <li>data, duração e cidade</li>
+            <li>público e contexto do projeto</li>
+            <li>entregas e canais de uso</li>
+            <li>prazo e faixa de investimento, se houver</li>
+          </ul>
+        </div>
+
+        <div class="contact-direct">
+          <p class="meta">Contato direto</p>
+          {whatsapp && (
+            <a class="text-link" href={whatsapp} target="_blank" rel="noreferrer">
+              Conversar pelo WhatsApp <span aria-hidden="true">↗</span>
+            </a>
+          )}
+          {publicConfig.contactEmail && (
+            <a class="text-link" href={`mailto:${publicConfig.contactEmail}`}>
+              {publicConfig.contactEmail}
+            </a>
+          )}
+          {!whatsapp && !publicConfig.contactEmail && (
+            <p>
+              WhatsApp e e-mail serão ativados quando os dados de contato forem
+              confirmados.
+            </p>
+          )}
+        </div>
+      </div>
+
+      <form
+        class="contact-form"
+        action={publicConfig.formEndpoint || undefined}
+        method="post"
+        data-contact-form
+        data-endpoint={publicConfig.formEndpoint}
+      >
+        <div class="form-heading">
+          <p class="meta">Pedido inicial / leva cerca de 3 minutos</p>
+          <h2>Conte um pouco do projeto</h2>
+        </div>
+
+        <div class="field-grid">
+          <label>
+            <span>Nome *</span>
+            <input type="text" name="nome" autocomplete="name" required />
+          </label>
+          <label>
+            <span>E-mail *</span>
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+          <label>
+            <span>WhatsApp</span>
+            <input type="tel" name="whatsapp" autocomplete="tel" />
+          </label>
+          <label>
+            <span>Cidade *</span>
+            <input type="text" name="cidade" autocomplete="address-level2" required />
+          </label>
+          <label class="field-grid__wide">
+            <span>Serviço *</span>
+            <select name="servico" required>
+              <option value="">Escolha uma opção</option>
+              <option>Fotografia</option>
+              <option>Audiovisual</option>
+              <option>Aulas de aquarela</option>
+              <option>Oficina de fotografia ou arte</option>
+              <option>Projeto cultural ou educativo</option>
+              <option>Mais de um serviço</option>
+              <option>Ainda não sei</option>
+            </select>
+          </label>
+          <label>
+            <span>Data ou período</span>
+            <input type="text" name="data" placeholder="ex.: setembro de 2026" />
+          </label>
+          <label>
+            <span>Faixa de investimento</span>
+            <select name="investimento">
+              <option value="">Prefiro conversar</option>
+              <option>Até R$ 1.000</option>
+              <option>De R$ 1.000 a R$ 3.000</option>
+              <option>De R$ 3.000 a R$ 7.000</option>
+              <option>Acima de R$ 7.000</option>
+              <option>Projeto via edital ou instituição</option>
+            </select>
+          </label>
+          <label class="field-grid__wide">
+            <span>O que você imagina? *</span>
+            <textarea
+              name="mensagem"
+              rows="7"
+              required
+              placeholder="Conte o contexto, o público, as entregas e qualquer dúvida."
+            ></textarea>
+          </label>
+        </div>
+
+        <label class="consent">
+          <input type="checkbox" name="consentimento" required />
+          <span>
+            Concordo que estes dados sejam usados apenas para responder ao meu
+            contato. *
+          </span>
+        </label>
+
+        <input
+          class="form-honeypot"
+          type="text"
+          name="_gotcha"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+        />
+
+        <div class="form-actions">
+          <button class="button button--magenta" type="submit">
+            Enviar pedido <span aria-hidden="true">→</span>
+          </button>
+          <p class="form-status" data-form-status aria-live="polite">
+            {publicConfig.formEndpoint
+              ? "Seus dados serão enviados com segurança."
+              : "Na prévia, o formulário demonstra todos os campos. O envio será ativado antes da publicação."}
+          </p>
+        </div>
+      </form>
+    </section>
+  </article>
+
+  <script is:inline define:vars={{ endpoint: publicConfig.formEndpoint }}>
+    const form = document.querySelector("[data-contact-form]");
+    const status = document.querySelector("[data-form-status]");
+
+    form?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!endpoint) {
+        status.textContent =
+          "O formulário está pronto, mas ainda falta conectar o endereço de envio.";
+        status.setAttribute("data-state", "notice");
+        return;
+      }
+
+      const submit = form.querySelector('button[type="submit"]');
+      submit.disabled = true;
+      status.textContent = "Enviando…";
+      status.setAttribute("data-state", "loading");
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" }
+        });
+
+        if (!response.ok) throw new Error("Falha no envio");
+
+        form.reset();
+        status.textContent =
+          "Mensagem enviada. A Peixeaomar responderá assim que possível.";
+        status.setAttribute("data-state", "success");
+      } catch {
+        status.textContent =
+          "Não foi possível enviar agora. Tente novamente ou use o contato direto.";
+        status.setAttribute("data-state", "error");
+      } finally {
+        submit.disabled = false;
+      }
+    });
+  </script>
+</BaseLayout>

@@ -1,0 +1,71 @@
+---
+import { navigation } from "../data/site";
+
+const currentPath = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/"
+    ? currentPath === "/"
+    : currentPath === href || currentPath.startsWith(href);
+---
+
+<header class="site-header" data-site-header>
+  <a class="brand" href="/" aria-label="Peixeaomar — página inicial">
+    <img
+      src="/images/peixeaomar-logo-branca.png"
+      alt=""
+      width="900"
+      height="1198"
+    />
+  </a>
+
+  <button
+    class="menu-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="site-navigation"
+    data-menu-toggle
+  >
+    <span>Menu</span>
+    <span class="menu-toggle__mark" aria-hidden="true">+</span>
+  </button>
+
+  <nav id="site-navigation" class="site-navigation" aria-label="Principal">
+    <ul>
+      {navigation.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  const navigation = document.querySelector<HTMLElement>("#site-navigation");
+  const header = document.querySelector<HTMLElement>("[data-site-header]");
+
+  const closeMenu = () => {
+    toggle?.setAttribute("aria-expanded", "false");
+    header?.removeAttribute("data-menu-open");
+  };
+
+  toggle?.addEventListener("click", () => {
+    const expanded = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!expanded));
+    header?.toggleAttribute("data-menu-open", !expanded);
+  });
+
+  navigation?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+  });
+</script>

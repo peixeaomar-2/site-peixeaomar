@@ -1,0 +1,192 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactCTA from "../components/ContactCTA.astro";
+import Faq from "../components/Faq.astro";
+import Testimonials from "../components/Testimonials.astro";
+import {
+  defaultDescription,
+  fourAxes,
+  homeFaq,
+  posts,
+  services
+} from "../data/site";
+import { galleryProjects } from "../data/galeria";
+import { publicConfig } from "../config";
+
+const featuredProjects = galleryProjects
+  .filter((project) => project.visible && project.featured)
+  .slice(0, 3);
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Mariana",
+    jobTitle: "Fotógrafa, artista e educadora",
+    url: publicConfig.siteUrl,
+    image: new URL("/og.png", publicConfig.siteUrl).toString(),
+    workLocation: {
+      "@type": "City",
+      name: "Rio de Janeiro"
+    },
+    knowsAbout: [
+      "Fotografia",
+      "Produção audiovisual",
+      "Aquarela",
+      "Educação artística"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Peixeaomar",
+    url: publicConfig.siteUrl,
+    inLanguage: "pt-BR"
+  }
+];
+---
+
+<BaseLayout
+  title="Peixeaomar — Mariana, fotografia, arte e educação"
+  description={defaultDescription}
+  canonicalPath="/"
+  jsonLd={jsonLd}
+>
+  <section class="home-hero">
+    <div class="home-hero__copy">
+      <p class="meta">Fotografia / arte / educação</p>
+      <h1>Oi, eu sou a Mariana.</h1>
+      <p class="home-hero__lead">
+        Fotografo, pinto e ensino no Rio de Janeiro. A Peixeaomar reúne tudo
+        isso num só lugar: imagens, aulas e processos que ampliam percepção,
+        autoria e imaginação.
+      </p>
+      <div class="button-row">
+        <a class="button button--magenta" href="/contato/">
+          Pedir um orçamento <span aria-hidden="true">→</span>
+        </a>
+        <a class="button button--ghost" href="/sobre/">
+          Conhecer minha trajetória
+        </a>
+      </div>
+    </div>
+    <div class="home-hero__visual">
+      <img
+        class="home-hero__photo"
+        src="/images/processo-editorial.webp"
+        alt="Mariana trabalha em seu processo criativo — foto de perfil a ser substituída"
+        width="1600"
+        height="1067"
+      />
+      <img
+        class="home-hero__texture"
+        src="/images/mare-em-atrito.webp"
+        alt=""
+        width="1600"
+        height="900"
+        aria-hidden="true"
+      />
+      <p class="hand-note home-hero__note">a marca do gesto fica na imagem</p>
+    </div>
+  </section>
+
+  <section class="axes section-shell">
+    <div class="section-heading section-heading--wide">
+      <p class="meta">Um mesmo olhar / três práticas</p>
+      <h2>Fotografar, pintar e ensinar não são coisas separadas.</h2>
+      <p>
+        A unidade não vem de transformar tudo no mesmo serviço. Vem da
+        escuta, da curiosidade e da atenção ao processo.
+      </p>
+    </div>
+    <div class="axes__grid axes__grid--three">
+      {fourAxes.map((axis) => (
+        <article class:list={["axis-card", `axis-card--${axis.tone}`]} data-reveal>
+          <p class="meta">{axis.number}</p>
+          <h3>{axis.title}</h3>
+          <p>{axis.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="home-services section-shell section-shell--dark">
+    <div class="section-heading">
+      <p class="meta">Serviços</p>
+      <h2>O que você está buscando?</h2>
+    </div>
+    <div class="home-services__list">
+      {services.map((service) => (
+        <a class="service-row" href={`/${service.slug}/`}>
+          <span class="service-row__number meta">{service.number}</span>
+          <span class="service-row__title">{service.navLabel}</span>
+          <span class="service-row__summary">{service.summary}</span>
+          <span class="service-row__arrow" aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {featuredProjects.length > 0 && (
+    <section class="home-gallery section-shell">
+      <div class="section-heading section-heading--wide">
+        <p class="meta">Galeria</p>
+        <h2>Uma prévia dos trabalhos.</h2>
+        <p>Uma pequena seleção — a galeria completa tem mais álbuns por projeto.</p>
+      </div>
+      <div class="home-gallery__grid">
+        {featuredProjects.map((project, index) => (
+          <a
+            class="home-gallery__item"
+            href={`/galeria/${project.slug}/`}
+            data-reveal
+            style={`--reveal-delay: ${index * 80}ms`}
+          >
+            <img
+              src={project.cover}
+              alt={project.coverAlt}
+              width="1600"
+              height="1067"
+              loading="lazy"
+            />
+            <span class="home-gallery__label">
+              <strong>{project.title}</strong>
+              <span class="meta">{project.category}</span>
+            </span>
+          </a>
+        ))}
+      </div>
+      <a class="text-link" href="/galeria/">
+        Ver a galeria completa <span aria-hidden="true">→</span>
+      </a>
+    </section>
+  )}
+
+  <Testimonials />
+
+  <section class="home-blog section-shell">
+    <div class="section-heading section-heading--wide">
+      <p class="meta">Caderno / repertório / processo</p>
+      <h2>Conteúdo para escolher e contratar com mais clareza.</h2>
+    </div>
+    <div class="post-grid">
+      {posts.map((post, index) => (
+        <article class="post-card" data-reveal style={`--reveal-delay: ${index * 80}ms`}>
+          <div class="post-card__meta meta">
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <span>{post.category}</span>
+          </div>
+          <h3><a href={`/blog/${post.slug}/`}>{post.title}</a></h3>
+          <p>{post.description}</p>
+          <a class="text-link" href={`/blog/${post.slug}/`}>
+            Ler artigo <span aria-hidden="true">→</span>
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <Faq items={homeFaq} />
+
+  <ContactCTA />
+</BaseLayout>

@@ -1,0 +1,53 @@
+---
+import { defaultDescription, siteName } from "../data/site";
+import { publicConfig } from "../config";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalPath?: string;
+  type?: "website" | "article";
+  noindex?: boolean;
+}
+
+const {
+  title = siteName,
+  description = defaultDescription,
+  image = "/og.png",
+  canonicalPath = Astro.url.pathname,
+  type = "website",
+  noindex = false
+} = Astro.props;
+
+const pageTitle = title === siteName ? title : `${title} | ${siteName}`;
+const canonical = new URL(canonicalPath, publicConfig.siteUrl);
+const socialImage = new URL(image, publicConfig.siteUrl);
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+{publicConfig.googleVerification && (
+  <meta
+    name="google-site-verification"
+    content={publicConfig.googleVerification}
+  />
+)}
+
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={socialImage} />
+<meta
+  property="og:image:alt"
+  content="Peixeaomar — formas de olhar, processos que ficam"
+/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={socialImage} />

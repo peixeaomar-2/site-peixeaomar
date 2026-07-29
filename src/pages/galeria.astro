@@ -1,0 +1,78 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactCTA from "../components/ContactCTA.astro";
+import { galleryProjects } from "../data/galeria";
+import { publicConfig } from "../config";
+
+const title = "Galeria de fotografia e arte";
+const description =
+  "Álbuns de fotografia, arte e projetos autorais da Peixeaomar, organizados por trabalho.";
+
+const visibleProjects = galleryProjects.filter((project) => project.visible);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: title,
+  description,
+  url: new URL("/galeria/", publicConfig.siteUrl).toString()
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/galeria/"
+  jsonLd={jsonLd}
+>
+  <article class="portfolio-page">
+    <header class="portfolio-hero">
+      <div>
+        <p class="meta">Galeria / álbuns</p>
+        <h1>Trabalhos organizados por projeto.</h1>
+      </div>
+      <p>
+        Cada álbum reúne uma seleção de imagens de um trabalho específico.
+        Clique em um projeto para ver a galeria completa.
+      </p>
+    </header>
+
+    <section class="gallery-grid" aria-label="Projetos">
+      {visibleProjects.map((project, index) => (
+        <a
+          class="gallery-card"
+          href={`/galeria/${project.slug}/`}
+          data-reveal
+          style={`--reveal-delay: ${index * 80}ms`}
+        >
+          <figure>
+            <img
+              src={project.cover}
+              alt={project.coverAlt}
+              width="1600"
+              height="1067"
+              loading="lazy"
+            />
+          </figure>
+          <div class="gallery-card__meta">
+            <span class="meta">{project.category}</span>
+            <h2>{project.title}</h2>
+            <span class="text-link">
+              Ver álbum <span aria-hidden="true">→</span>
+            </span>
+          </div>
+        </a>
+      ))}
+    </section>
+
+    {visibleProjects.length === 0 && (
+      <p class="section-shell">Novos álbuns em breve.</p>
+    )}
+
+    <ContactCTA
+      eyebrow="Gostou do que viu?"
+      title="Seu projeto pode ser o próximo álbum aqui."
+      tone="night"
+    />
+  </article>
+</BaseLayout>
